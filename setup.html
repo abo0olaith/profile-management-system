@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل الإعداد - Google Drive API</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-user-circle"></i>
+                <span>نظام البروفايلات</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">إنشاء بروفايل</a>
+                <a href="profiles.html">عرض البروفايلات</a>
+                <a href="setup.html" class="active">الإعداد</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1><i class="fas fa-cog"></i> دليل إعداد Google Drive API</h1>
+                <p>خطوات تفصيلية لإعداد النظام وربطه بحساب Google Drive</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- مقدمة -->
+            <div class="setup-section">
+                <h2><i class="fas fa-info-circle"></i> نظرة عامة</h2>
+                <p>لكي يعمل نظام إدارة البروفايلات بشكل صحيح، تحتاج إلى:</p>
+                <ul>
+                    <li><strong>حساب Google:</strong> لتخزين البيانات والصور على Google Drive</li>
+                    <li><strong>مشروع على Google Cloud Console:</strong> للحصول على بيانات الاعتماد (API Credentials)</li>
+                    <li><strong>تفعيل Google Drive API:</strong> للسماح للتطبيق بالوصول إلى Google Drive</li>
+                </ul>
+                
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>مهم:</strong> يجب إكمال جميع الخطوات التالية بدقة لضمان عمل النظام بشكل صحيح.
+                </div>
+            </div>
+
+            <!-- الخطوة 1 -->
+            <div class="setup-section">
+                <h2><i class="fas fa-step-forward"></i> الخطوة 1: إنشاء مشروع على Google Cloud Console</h2>
+                
+                <ol>
+                    <li>
+                        <strong>الانتقال إلى Google Cloud Console:</strong><br>
+                        افتح الرابط: <a href="https://console.cloud.google.com/" target="_blank" style="color: var(--primary-color);">https://console.cloud.google.com/</a>
+                    </li>
+                    
+                    <li>
+                        <strong>إنشاء مشروع جديد:</strong>
+                        <ul>
+                            <li>انقر على القائمة المنسدلة للمشاريع في الأعلى</li>
+                            <li>اختر "New Project" أو "مشروع جديد"</li>
+                            <li>أدخل اسم المشروع مثل: "ProfilesSystem"</li>
+                            <li>انقر على "Create" أو "إنشاء"</li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <strong>تحديد المشروع:</strong><br>
+                        بعد إنشاء المشروع، تأكد من تحديده من القائمة المنسدلة في الأعلى.
+                    </li>
+                </ol>
+
+                <div class="info-box">
+                    <i class="fas fa-lightbulb"></i>
+                    <strong>نصيحة:</strong> احفظ اسم المشروع ومعرفه (Project ID) في مكان آمن للرجوع إليه لاحقاً.
+                </div>
+            </div>
+
+            <!-- الخطوة 2 -->
+            <div class="setup-section">
+                <h2><i class="fas fa-step-forward"></i> الخطوة 2: تفعيل Google Drive API</h2>
+                
+                <ol>
+                    <li>
+                        <strong>الانتقال إلى مكتبة APIs:</strong>
+                        <ul>
+                            <li>في القائمة الجانبية، اختر "APIs & Services" ثم "Library"</li>
+                            <li>أو استخدم الرابط المباشر: <a href="https://console.cloud.google.com/apis/library" target="_blank" style="color: var(--primary-color);">Google APIs Library</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <strong>البحث عن Google Drive API:</strong>
+                        <ul>
+                            <li>ابحث عن "Google Drive API"</li>
+                            <li>انقر على النتيجة الأولى</li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <strong>تفعيل API:</strong><br>
+                        انقر على زر "Enable" أو "تفعيل"
+                    </li>
+                </ol>
+            </div>
+
+            <!-- الخطوة 3 -->
+            <div class="setup-section">
+                <h2><i class="fas fa-step-forward"></i> الخطوة 3: إنشاء بيانات الاعتماد (API Credentials)</h2>
+                
+                <h3><i class="fas fa-key"></i> أ) إنشاء OAuth 2.0 Client ID</h3>
+                <ol>
+                    <li>
+                        <strong>الانتقال إلى Credentials:</strong><br>
+                        في القائمة الجانبية، اختر "APIs & Services" ثم "Credentials"
+                    </li>
+                    
+                    <li>
+                        <strong>إنشاء OAuth consent screen:</strong>
+                        <ul>
+                            <li>إذا كانت هذه أول مرة، انقر على "CONFIGURE CONSENT SCREEN"</li>
+                            <li>اختر "External" ثم انقر "Create"</li>
+                            <li>املأ المعلومات الأساسية:
+                                <ul>
+                                    <li>App name: ProfilesSystem</li>
+                                    <li>User support email: بريدك الإلكتروني</li>
+                                    <li>Developer contact information: بريدك الإلكتروني</li>
+                                </ul>
+                            </li>
+                            <li>انقر "Save and Continue" في كل خطوة حتى النهاية</li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <strong>إنشاء OAuth Client ID:</strong>
+                        <ul>
+                            <li>ارجع إلى صفحة "Credentials"</li>
+                            <li>انقر على "+ CREATE CREDENTIALS"</li>
+                            <li>اختر "OAuth client ID"</li>
+                            <li>Application type: اختر "Web application"</li>
+                            <li>Name: أدخل اسماً مثل "ProfilesSystem Web Client"</li>
+                            <li>في "Authorized JavaScript origins"، أضف:
+                                <div class="code-block">
+http://localhost:8000<br>
+http://127.0.0.1:8000<br>
+https://yourdomain.com
+                                </div>
+                            </li>
+                            <li>في "Authorized redirect URIs"، أضف نفس الروابط</li>
+                            <li>انقر "Create"</li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <strong>نسخ Client ID:</strong><br>
+                        ستظهر نافذة بها Client ID وClient Secret. <strong>احفظ Client ID</strong>
+                    </li>
+                </ol>
+
+                <h3><i class="fas fa-key"></i> ب) إنشاء API Key</h3>
+                <ol>
+                    <li>في صفحة "Credentials"، انقر على "+ CREATE CREDENTIALS"</li>
+                    <li>اختر "API key"</li>
+                    <li>سيتم إنشاء API Key تلقائياً. <strong>احفظ المفتاح</strong></li>
+                    <li>يُنصح بالنقر على "RESTRICT KEY" لتأمين المفتاح:
+                        <ul>
+                            <li>في "API restrictions"، اختر "Restrict key"</li>
+                            <li>حدد "Google Drive API"</li>
+                            <li>احفظ التغييرات</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="warning-box">
+                    <i class="fas fa-shield-alt"></i>
+                    <strong>أمان:</strong> لا تشارك Client ID أو API Key مع أي شخص. احفظهم في مكان آمن.
+                </div>
+            </div>
+
+            <!-- الخطوة 4 -->
+            <div class="setup-section">
+                <h2><i class="fas fa-step-forward"></i> الخطوة 4: إضافة نفسك كمستخدم تجريبي</h2>
+                
+                <p>بما أن التطبيق لم يتم نشره بعد، يجب إضافة نفسك كمستخدم تجريبي:</p>
+                
+                <ol>
+                    <li>في القائمة الجانبية، اختر "OAuth consent screen"</li>
+                    <li>في قسم "Test users"، انقر على "+ ADD USERS"</li>
+                    <li>أضف بريدك الإلكتروني</li>
+                    <li>احفظ التغييرات</li>
+                </ol>
+
+                <div class="info-box">
+                    <i class="fas fa-users"></i>
+                    <strong>ملاحظة:</strong> يمكنك إضافة حتى 100 مستخدم تجريبي. لنشر التطبيق للعامة، يجب إكمال عملية التحقق من Google.
+                </div>
+            </div>
+
+            <!-- الخطوة 5 -->
+            <div class="setup-section">
+                <h2><i class="fas fa-step-forward"></i> الخطوة 5: تكوين ملف config.js</h2>
+                
+                <p>الآن بعد الحصول على بيانات الاعتماد، قم بتحديث ملف <code>js/config.js</code>:</p>
+                
+                <ol>
+                    <li>
+                        <strong>افتح ملف config.js:</strong><br>
+                        ستجده في مجلد <code>js/config.js</code>
+                    </li>
+                    
+                    <li>
+                        <strong>استبدل القيم التالية:</strong>
+                        <div class="code-block">
+const CONFIG = {<br>
+    &nbsp;&nbsp;// استبدل YOUR_CLIENT_ID_HERE بـ Client ID الخاص بك<br>
+    &nbsp;&nbsp;CLIENT_ID: '<span style="color: #f59e0b;">1234567890-abc123xyz.apps.googleusercontent.com</span>',<br>
+    <br>
+    &nbsp;&nbsp;// استبدل YOUR_API_KEY_HERE بـ API Key الخاص بك<br>
+    &nbsp;&nbsp;API_KEY: '<span style="color: #f59e0b;">AIzaSyABC123XYZ456...</span>',<br>
+    <br>
+    &nbsp;&nbsp;// باقي الإعدادات لا تحتاج لتغيير<br>
+    &nbsp;&nbsp;SCOPES: [<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;'https://www.googleapis.com/auth/drive.file',<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;'https://www.googleapis.com/auth/drive.appdata'<br>
+    &nbsp;&nbsp;].join(' '),<br>
+    &nbsp;&nbsp;...<br>
+};
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <strong>احفظ الملف</strong>
+                    </li>
+                </ol>
+
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>تحذير:</strong> تأكد من نسخ القيم بالكامل وبدون مسافات زائدة.
+                </div>
+            </div>
+
+            <!-- الخطوة 6 -->
+            <div class="setup-section">
+                <h2><i class="fas fa-step-forward"></i> الخطوة 6: تشغيل التطبيق</h2>
+                
+                <p>لتشغيل التطبيق بشكل صحيح، يجب استخدام خادم ويب محلي:</p>
+                
+                <h3><i class="fas fa-server"></i> باستخدام Python (موصى به):</h3>
+                <div class="code-block">
+# إذا كان لديك Python 3<br>
+python -m http.server 8000<br>
+<br>
+# إذا كان لديك Python 2<br>
+python -m SimpleHTTPServer 8000
+                </div>
+                
+                <h3><i class="fas fa-server"></i> باستخدام Node.js:</h3>
+                <div class="code-block">
+# تثبيت http-server<br>
+npm install -g http-server<br>
+<br>
+# تشغيل الخادم<br>
+http-server -p 8000
+                </div>
+                
+                <h3><i class="fas fa-server"></i> باستخدام PHP:</h3>
+                <div class="code-block">
+php -S localhost:8000
+                </div>
+                
+                <p>بعد تشغيل الخادم، افتح المتصفح وانتقل إلى:</p>
+                <div class="code-block">
+http://localhost:8000
+                </div>
+
+                <div class="info-box">
+                    <i class="fas fa-chrome"></i>
+                    <strong>المتصفحات المدعومة:</strong> Chrome, Firefox, Edge, Safari (أحدث إصدار)
+                </div>
+            </div>
+
+            <!-- الخطوة 7 -->
+            <div class="setup-section">
+                <h2><i class="fas fa-step-forward"></i> الخطوة 7: اختبار النظام</h2>
+                
+                <ol>
+                    <li>افتح التطبيق في المتصفح</li>
+                    <li>انقر على "تسجيل الدخول بحساب Google"</li>
+                    <li>اختر حساب Google الذي أضفته كمستخدم تجريبي</li>
+                    <li>وافق على الصلاحيات المطلوبة</li>
+                    <li>جرب إنشاء بروفايل جديد للتأكد من عمل النظام</li>
+                </ol>
+
+                <div class="warning-box">
+                    <i class="fas fa-shield-alt"></i>
+                    <strong>تحذير الأمان:</strong> قد تظهر رسالة "This app isn't verified" - هذا طبيعي للتطبيقات في وضع التجربة. انقر على "Advanced" ثم "Go to ProfilesSystem (unsafe)" للمتابعة.
+                </div>
+            </div>
+
+            <!-- استكشاف الأخطاء -->
+            <div class="setup-section">
+                <h2><i class="fas fa-wrench"></i> استكشاف الأخطاء وحلها</h2>
+                
+                <h3>❌ خطأ: "redirect_uri_mismatch"</h3>
+                <p><strong>الحل:</strong> تأكد من إضافة عنوان URL الصحيح في "Authorized JavaScript origins" و "Authorized redirect URIs"</p>
+                
+                <h3>❌ خطأ: "Access blocked: ProfilesSystem has not completed the Google verification process"</h3>
+                <p><strong>الحل:</strong> تأكد من إضافة بريدك الإلكتروني كمستخدم تجريبي في "OAuth consent screen"</p>
+                
+                <h3>❌ خطأ: "Invalid API key"</h3>
+                <p><strong>الحل:</strong> تحقق من نسخ API Key بشكل صحيح في ملف config.js</p>
+                
+                <h3>❌ خطأ: "The API is not enabled"</h3>
+                <p><strong>الحل:</strong> تأكد من تفعيل Google Drive API في Google Cloud Console</p>
+                
+                <h3>❌ لا يعمل النظام على file:// protocol</h3>
+                <p><strong>الحل:</strong> يجب استخدام خادم ويب محلي (http:// أو https://) - لن يعمل بفتح الملف مباشرة</p>
+
+                <div class="info-box">
+                    <i class="fas fa-question-circle"></i>
+                    <strong>للمساعدة:</strong> راجع <a href="https://developers.google.com/drive/api/guides/about-auth" target="_blank" style="color: var(--primary-color);">Google Drive API Documentation</a>
+                </div>
+            </div>
+
+            <!-- الأمان -->
+            <div class="setup-section">
+                <h2><i class="fas fa-shield-alt"></i> نصائح الأمان</h2>
+                
+                <ul>
+                    <li>✅ لا تشارك Client ID أو API Key على GitHub أو أي منصة عامة</li>
+                    <li>✅ استخدم قيود API Key (API restrictions) لتأمين المفتاح</li>
+                    <li>✅ أضف فقط النطاقات (domains) التي تثق بها في Authorized origins</li>
+                    <li>✅ راجع الأنشطة في Google Cloud Console بشكل دوري</li>
+                    <li>✅ إذا تم تسريب المفاتيح، احذفها فوراً وأنشئ مفاتيح جديدة</li>
+                </ul>
+            </div>
+
+            <!-- روابط مفيدة -->
+            <div class="setup-section">
+                <h2><i class="fas fa-link"></i> روابط مفيدة</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                    <a href="https://console.cloud.google.com/" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-cloud"></i> Google Cloud Console
+                    </a>
+                    <a href="https://developers.google.com/drive/api" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-book"></i> Drive API Docs
+                    </a>
+                    <a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-key"></i> API Credentials
+                    </a>
+                    <a href="index.html" class="btn btn-secondary">
+                        <i class="fas fa-home"></i> العودة للصفحة الرئيسية
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 نظام إدارة البروفايلات - مدعوم بـ Google Drive</p>
+        </div>
+    </footer>
+</body>
+</html>

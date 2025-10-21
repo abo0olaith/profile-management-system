@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة البروفايلات - Google Drive</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-user-circle"></i>
+                <span>نظام البروفايلات</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">إنشاء بروفايل</a>
+                <a href="profiles.html">عرض البروفايلات</a>
+                <a href="setup.html">الإعداد</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1><i class="fas fa-id-card"></i> أنشئ بروفايلك الشخصي</h1>
+                <p>قم بإنشاء بروفايل احترافي وحفظه مباشرة على Google Drive</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Alert Messages -->
+            <div id="alertContainer"></div>
+
+            <!-- Google Auth Section -->
+            <div class="auth-section" id="authSection">
+                <div class="auth-card">
+                    <i class="fab fa-google"></i>
+                    <h2>الاتصال بـ Google Drive</h2>
+                    <p>يجب عليك تسجيل الدخول إلى حساب Google الخاص بك لحفظ البروفايلات</p>
+                    <button id="authorizeButton" class="btn btn-google">
+                        <i class="fab fa-google"></i>
+                        تسجيل الدخول بحساب Google
+                    </button>
+                    <button id="signoutButton" class="btn btn-secondary" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        تسجيل الخروج
+                    </button>
+                    <div class="auth-status" id="authStatus"></div>
+                </div>
+            </div>
+
+            <!-- Profile Form -->
+            <div class="form-section" id="formSection" style="display: none;">
+                <div class="form-card">
+                    <h2><i class="fas fa-user-plus"></i> بيانات البروفايل</h2>
+                    
+                    <form id="profileForm">
+                        <!-- الصورة الشخصية -->
+                        <div class="form-group">
+                            <label for="profileImage">
+                                <i class="fas fa-camera"></i> الصورة الشخصية *
+                            </label>
+                            <div class="image-upload-container">
+                                <input type="file" id="profileImage" accept="image/*" required>
+                                <div class="image-preview" id="profileImagePreview">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span>اختر صورة شخصية</span>
+                                </div>
+                            </div>
+                            <small>يفضل صورة بحجم 500x500 بكسل</small>
+                        </div>
+
+                        <!-- الاسم -->
+                        <div class="form-group">
+                            <label for="fullName">
+                                <i class="fas fa-signature"></i> الاسم الكامل *
+                            </label>
+                            <input type="text" id="fullName" placeholder="أدخل اسمك الكامل" required>
+                        </div>
+
+                        <!-- السيرة الذاتية -->
+                        <div class="form-group">
+                            <label for="biography">
+                                <i class="fas fa-pen"></i> السيرة الذاتية *
+                            </label>
+                            <textarea id="biography" rows="6" placeholder="اكتب نبذة عن نفسك، مؤهلاتك، خبراتك..." required></textarea>
+                            <small id="bioCounter">0 / 500 حرف</small>
+                        </div>
+
+                        <!-- البريد الإلكتروني -->
+                        <div class="form-group">
+                            <label for="email">
+                                <i class="fas fa-envelope"></i> البريد الإلكتروني *
+                            </label>
+                            <input type="email" id="email" placeholder="example@email.com" required>
+                        </div>
+
+                        <!-- رقم الهاتف -->
+                        <div class="form-group">
+                            <label for="phone">
+                                <i class="fas fa-phone"></i> رقم الهاتف *
+                            </label>
+                            <input type="tel" id="phone" placeholder="+20 123 456 7890" required>
+                        </div>
+
+                        <!-- الصور الإضافية -->
+                        <div class="form-group">
+                            <label for="additionalImages">
+                                <i class="fas fa-images"></i> صور إضافية (اختياري)
+                            </label>
+                            <input type="file" id="additionalImages" accept="image/*" multiple>
+                            <div class="images-preview" id="additionalImagesPreview"></div>
+                            <small>يمكنك اختيار حتى 10 صور</small>
+                        </div>
+
+                        <!-- أزرار التحكم -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <i class="fas fa-save"></i> حفظ البروفايل
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> إعادة تعيين
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Progress Section -->
+                <div class="progress-section" id="progressSection" style="display: none;">
+                    <div class="progress-card">
+                        <h3><i class="fas fa-spinner fa-spin"></i> جاري حفظ البروفايل...</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p id="progressText">التحضير للرفع...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 نظام إدارة البروفايلات - مدعوم بـ Google Drive</p>
+        </div>
+    </footer>
+
+    <!-- Google API Client Library -->
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <!-- Main JavaScript -->
+    <script src="js/config.js"></script>
+    <script src="js/google-auth.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
